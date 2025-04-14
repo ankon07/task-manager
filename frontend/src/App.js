@@ -9,6 +9,8 @@ import AuthLayout from './layouts/AuthLayout';
 // Pages
 import Dashboard from './pages/Dashboard';
 import Tasks from './pages/Tasks';
+import NewTask from './pages/NewTask';
+import EditTask from './pages/EditTask';
 import Calendar from './pages/Calendar';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
@@ -56,6 +58,8 @@ function App() {
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="tasks" element={<Tasks />} />
+        <Route path="tasks/new" element={<NewTask />} />
+        <Route path="tasks/:id/edit" element={<EditTask />} />
         <Route path="calendar" element={<Calendar />} />
         <Route path="profile" element={<Profile />} />
         <Route path="settings" element={<Settings />} />

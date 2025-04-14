@@ -9,7 +9,7 @@ class UserService {
     const user = authService.getCurrentUser();
     if (!user) throw new Error('User not authenticated');
     
-    return axios.get(`${API_USERS_URL}/${user.id}`, {
+    return await axios.get(`${API_USERS_URL}/${user.id}`, {
       headers: authService.getAuthHeader()
     });
   }
@@ -18,7 +18,7 @@ class UserService {
     const user = authService.getCurrentUser();
     if (!user) throw new Error('User not authenticated');
     
-    return axios.put(`${API_USERS_URL}/${user.id}`, userData, {
+    return await axios.put(`${API_USERS_URL}/${user.id}`, userData, {
       headers: authService.getAuthHeader()
     });
   }
@@ -27,7 +27,7 @@ class UserService {
     const user = authService.getCurrentUser();
     if (!user) throw new Error('User not authenticated');
     
-    return axios.post(`${API_USERS_URL}/${user.id}/change-password`, {
+    return await axios.post(`${API_USERS_URL}/${user.id}/change-password`, {
       currentPassword,
       newPassword
     }, {
@@ -39,7 +39,7 @@ class UserService {
     const user = authService.getCurrentUser();
     if (!user) throw new Error('User not authenticated');
     
-    return axios.get(`${API_USERS_URL}/${user.id}/tasks`, {
+    return await axios.get(`${API_USERS_URL}/${user.id}/tasks`, {
       headers: authService.getAuthHeader()
     });
   }
@@ -48,13 +48,13 @@ class UserService {
     const user = authService.getCurrentUser();
     if (!user) throw new Error('User not authenticated');
     
-    return axios.get(`${API_USERS_URL}/${user.id}/categories`, {
+    return await axios.get(`${API_USERS_URL}/${user.id}/categories`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTeamMembers() {
-    return axios.get(`${API_USERS_URL}/team`, {
+    return await axios.get(`${API_USERS_URL}/team`, {
       headers: authService.getAuthHeader()
     });
   }

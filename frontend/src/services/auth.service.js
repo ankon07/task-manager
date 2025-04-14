@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 
@@ -35,17 +36,26 @@ class AuthService {
     
     try {
       const user = JSON.parse(userStr);
-      // Check if token is expired
-      const tokenData = JSON.parse(atob(user.accessToken.split('.')[1]));
-      const isExpired = Date.now() >= tokenData.exp * 1000;
       
-      if (isExpired) {
+      // Check if token is expired
+      try {
+        const tokenData = JSON.parse(atob(user.accessToken.split('.')[1]));
+        const isExpired = Date.now() >= tokenData.exp * 1000;
+        
+        if (isExpired) {
+          // If token is expired, log the user out
+          this.logout();
+          return null;
+        }
+      } catch (tokenError) {
+        // If token can't be parsed, log the user out
         this.logout();
         return null;
       }
       
       return user;
     } catch (error) {
+      // If there's an error parsing the user data, log the user out
       this.logout();
       return null;
     }
@@ -54,6 +64,10 @@ class AuthService {
   getAuthHeader() {
     const user = this.getCurrentUser();
     return user ? { 'x-access-token': user.accessToken } : {};
+  }
+  
+  isAuthenticated() {
+    return this.getCurrentUser() !== null;
   }
   
   async forgotPassword(email) {
