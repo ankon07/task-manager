@@ -109,14 +109,38 @@ A secure and feature-rich task management system API built with Node.js, Express
 
 ## Setting Up GitHub Repository
 
+### Option 1: Using the Setup Script (Recommended)
+
+We've included a setup script to make it easy to initialize Git and push to GitHub:
+
 1. Create a new repository on GitHub:
    - Go to [GitHub](https://github.com)
    - Click on "New repository"
    - Name your repository (e.g., "task-manager")
    - Choose visibility (public or private)
-   - Click "Create repository"
+   - Click "Create repository" (do not initialize with README, .gitignore, or license)
 
-2. Initialize Git in your local project (if not already done):
+2. Run the setup script:
+   ```bash
+   ./setup-git.sh
+   ```
+
+3. Follow the prompts to enter your GitHub username and repository name.
+
+4. The script will:
+   - Initialize Git (if not already done)
+   - Update package.json and README.md with your repository URL
+   - Add and commit all files
+   - Add the remote repository
+   - Optionally push to GitHub
+
+### Option 2: Manual Setup
+
+If you prefer to set up Git manually:
+
+1. Create a new repository on GitHub as described above.
+
+2. Initialize Git in your local project:
    ```bash
    git init
    ```
