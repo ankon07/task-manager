@@ -3,29 +3,25 @@ const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
-  // Check Username
-  User.findOne({ username: req.body.username }).exec()
-    .then(user => {
-      if (user) {
-        return res.status(400).send({ message: "Failed! Username is already in use!" });
-      }
+checkDuplicateUsernameOrEmail = async (req, res, next) => {
+  try {
+    // Check Username
+    const userByUsername = await User.findOne({ username: req.body.username }).exec();
+    if (userByUsername) {
+      return res.status(400).send({ message: "Failed! Username is already in use!" });
+    }
 
-      // Check Email
-      User.findOne({ email: req.body.email }).exec()
-        .then(user => {
-          if (user) {
-            return res.status(400).send({ message: "Failed! Email is already in use!" });
-          }
-          next(); // Continue if username and email are unique
-        })
-        .catch(err => {
-          res.status(500).send({ message: err.message || "Error checking email uniqueness." });
-        });
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message || "Error checking username uniqueness." });
-    });
+    // Check Email
+    const userByEmail = await User.findOne({ email: req.body.email }).exec();
+    if (userByEmail) {
+      return res.status(400).send({ message: "Failed! Email is already in use!" });
+    }
+
+    // Continue if username and email are unique
+    next();
+  } catch (err) {
+    res.status(500).send({ message: err.message || "Error checking username/email uniqueness." });
+  }
 };
 
 

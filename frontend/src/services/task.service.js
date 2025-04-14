@@ -6,93 +6,120 @@ const API_TASKS_URL = `${API_URL}/api/tasks`;
 
 class TaskService {
   async getAllTasks() {
-    return axios.get(API_TASKS_URL, {
+    return await axios.get(API_TASKS_URL, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTaskById(id) {
-    return axios.get(`${API_TASKS_URL}/${id}`, {
+    return await axios.get(`${API_TASKS_URL}/${id}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async createTask(taskData) {
-    return axios.post(API_TASKS_URL, taskData, {
+    return await axios.post(API_TASKS_URL, taskData, {
       headers: authService.getAuthHeader()
     });
   }
   
   async updateTask(id, taskData) {
-    return axios.put(`${API_TASKS_URL}/${id}`, taskData, {
+    const response = await axios.put(`${API_TASKS_URL}/${id}`, taskData, {
       headers: authService.getAuthHeader()
     });
+    
+    // Handle the backend response structure which has data nested inside
+    if (response.data && response.data.data) {
+      // Backend returns { message: "Task was updated successfully.", data: updatedTask }
+      // But frontend expects the task directly, so we transform the response
+      return { data: response.data.data };
+    }
+    
+    return response;
   }
   
   async deleteTask(id) {
-    return axios.delete(`${API_TASKS_URL}/${id}`, {
+    return await axios.delete(`${API_TASKS_URL}/${id}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksByCategory(categoryId) {
-    return axios.get(`${API_TASKS_URL}/category/${categoryId}`, {
+    return await axios.get(`${API_TASKS_URL}/category/${categoryId}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksByStatus(status) {
-    return axios.get(`${API_TASKS_URL}/status/${status}`, {
+    return await axios.get(`${API_TASKS_URL}/status/${status}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksByPriority(priority) {
-    return axios.get(`${API_TASKS_URL}/priority/${priority}`, {
+    return await axios.get(`${API_TASKS_URL}/priority/${priority}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksByDueDate(date) {
-    return axios.get(`${API_TASKS_URL}/due-date/${date}`, {
+    return await axios.get(`${API_TASKS_URL}/due-date/${date}`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksForToday() {
-    return axios.get(`${API_TASKS_URL}/today`, {
+    return await axios.get(`${API_TASKS_URL}/today`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksForWeek() {
-    return axios.get(`${API_TASKS_URL}/week`, {
+    return await axios.get(`${API_TASKS_URL}/week`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getTasksForMonth() {
-    return axios.get(`${API_TASKS_URL}/month`, {
+    return await axios.get(`${API_TASKS_URL}/month`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async getCompletedTasks() {
-    return axios.get(`${API_TASKS_URL}/completed`, {
+    return await axios.get(`${API_TASKS_URL}/completed`, {
       headers: authService.getAuthHeader()
     });
   }
   
   async markTaskAsCompleted(id) {
-    return axios.patch(`${API_TASKS_URL}/${id}/complete`, {}, {
+    const response = await axios.patch(`${API_TASKS_URL}/${id}/complete`, {}, {
       headers: authService.getAuthHeader()
     });
+    
+    // Handle the backend response structure which has data nested inside
+    if (response.data && response.data.data) {
+      // Backend returns { message: "Task was marked as completed successfully.", data: updatedTask }
+      // But frontend expects the task directly, so we transform the response
+      return { data: response.data.data };
+    }
+    
+    return response;
   }
   
   async markTaskAsIncomplete(id) {
-    return axios.patch(`${API_TASKS_URL}/${id}/incomplete`, {}, {
+    const response = await axios.patch(`${API_TASKS_URL}/${id}/incomplete`, {}, {
       headers: authService.getAuthHeader()
     });
+    
+    // Handle the backend response structure which has data nested inside
+    if (response.data && response.data.data) {
+      // Backend returns { message: "Task was marked as incomplete successfully.", data: updatedTask }
+      // But frontend expects the task directly, so we transform the response
+      return { data: response.data.data };
+    }
+    
+    return response;
   }
 }
 

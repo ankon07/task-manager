@@ -19,24 +19,27 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const isAdmin = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      return res.status(500).send({ message: err });
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId).exec();
+    
+    if (!user) {
+      return res.status(404).send({ message: 'User not found.' });
     }
-    Role.find({ _id: { $in: user.roles } }, (err, roles) => {
-      if (err) {
-        return res.status(500).send({ message: err });
+    
+    const roles = await Role.find({ _id: { $in: user.roles } }).exec();
+    
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name === 'admin') {
+        next();
+        return;
       }
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === 'admin') {
-          next();
-          return;
-        }
-      }
-      res.status(403).send({ message: 'Require Admin Role!' });
-    });
-  });
+    }
+    
+    res.status(403).send({ message: 'Require Admin Role!' });
+  } catch (err) {
+    return res.status(500).send({ message: err.message || 'Error checking admin role.' });
+  }
 };
 
 module.exports = { verifyToken, isAdmin };

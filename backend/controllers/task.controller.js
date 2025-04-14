@@ -83,11 +83,18 @@ exports.createTask = async (req, res) => {
       }
     }
 
+    // Log the category reference for debugging
+    if (categoryRef) {
+      console.log(`Using category reference: ${categoryRef} for task: ${title}`);
+    }
+
     const task = new Task({
       title: title,
       description: description,
       dueDate: dueDate,
-      priority: priority,
+      priority: priority || 'medium',
+      status: req.body.status || 'todo',
+      progress: req.body.progress || 0,
       category: categoryRef,
       user: req.userId // Associate task with the logged-in user from authJwt middleware
     });
@@ -184,10 +191,19 @@ exports.findAllTasks = async (req, res) => {
       sortOptions.createdAt = -1; // Default sort by creation date descending
     }
 
+    // Add debug logging to see what's happening with categories
+    console.log("Finding tasks with condition:", JSON.stringify(condition));
+    
     const tasks = await Task.find(condition)
       .populate("category", "name") // Populate category name [cite: 7]
       .sort(sortOptions)
       .exec();
+    
+    // Log the first few tasks to see if categories are populated
+    if (tasks.length > 0) {
+      console.log("Sample task category data:", JSON.stringify(tasks[0].category));
+      console.log("Sample task full data:", JSON.stringify(tasks[0]));
+    }
       
     res.send(tasks);
   } catch (err) {
@@ -307,10 +323,39 @@ exports.updateTask = async (req, res) => {
       }
     }
     
-    // Remove temporary fields
+    // Remove temporary fields but keep the category field if it was set to a valid ObjectId
     delete updateData.categoryId;
     delete updateData.category_id;
-    delete updateData.category; // Remove if it was used as a string name
+    
+    // Only delete the category field if it was a string name and we've already processed it
+    // This ensures we don't lose the category reference we just set
+    if (typeof categoryIdOrName === 'string' && updateData.category && typeof updateData.category !== 'string') {
+      // We've already processed the category string and set updateData.category to an ObjectId
+      // So we don't need to do anything here
+    } else if (categoryIdOrName === undefined) {
+      // If no category was provided in the update, don't modify the existing category
+    } else if (categoryIdOrName === '') {
+      // If an empty string was provided, explicitly set category to null (uncategorize)
+      updateData.category = null;
+    }
+    
+    // Update progress based on status if not explicitly provided
+    if (updateData.status && !updateData.progress) {
+      switch (updateData.status) {
+        case 'todo':
+          updateData.progress = 0;
+          break;
+        case 'in-progress':
+          updateData.progress = 50;
+          break;
+        case 'review':
+          updateData.progress = 75;
+          break;
+        case 'completed':
+          updateData.progress = 100;
+          break;
+      }
+    }
 
     const updatedTask = await Task.findOneAndUpdate(
       { _id: id, user: userId }, 
@@ -355,6 +400,186 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).send({ message: `Task not found with id=${id}.` });
     }
     res.status(500).send({ message: `Could not delete Task with id=${id}.` });
+  }
+};
+
+// Mark a task as completed
+exports.markTaskAsCompleted = async (req, res) => {
+  const id = req.params.id;
+  const userId = req.userId;
+
+  try {
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, user: userId },
+      { status: 'completed', progress: 100 },
+      { useFindAndModify: false, new: true }
+    )
+    .populate("category", "name")
+    .exec();
+    
+    if (!updatedTask) {
+      return res.status(404).send({
+        message: `Cannot mark Task with id=${id} as completed. Maybe Task was not found or you don't have permission!`
+      });
+    }
+    
+    res.send({ message: "Task was marked as completed successfully.", data: updatedTask });
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).send({ message: `Task not found with id=${id}.` });
+    }
+    res.status(500).send({ message: `Error marking Task with id=${id} as completed: ${err.message}` });
+  }
+};
+
+// Mark a task as incomplete
+exports.markTaskAsIncomplete = async (req, res) => {
+  const id = req.params.id;
+  const userId = req.userId;
+
+  try {
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, user: userId },
+      { status: 'in-progress', progress: 50 },
+      { useFindAndModify: false, new: true }
+    )
+    .populate("category", "name")
+    .exec();
+    
+    if (!updatedTask) {
+      return res.status(404).send({
+        message: `Cannot mark Task with id=${id} as incomplete. Maybe Task was not found or you don't have permission!`
+      });
+    }
+    
+    res.send({ message: "Task was marked as incomplete successfully.", data: updatedTask });
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).send({ message: `Task not found with id=${id}.` });
+    }
+    res.status(500).send({ message: `Error marking Task with id=${id} as incomplete: ${err.message}` });
+  }
+};
+
+// Get tasks due today
+exports.getTasksForToday = async (req, res) => {
+  const userId = req.userId;
+  
+  try {
+    // Get today's date at midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Get tomorrow's date at midnight
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Find tasks due today
+    const tasks = await Task.find({
+      user: userId,
+      dueDate: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    })
+    .populate("category", "name")
+    .sort({ priority: -1 }) // Sort by priority (high to low)
+    .exec();
+    
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tasks for today."
+    });
+  }
+};
+
+// Get tasks due this week
+exports.getTasksForWeek = async (req, res) => {
+  const userId = req.userId;
+  
+  try {
+    // Get today's date at midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Get date 7 days from now at midnight
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    
+    // Find tasks due this week
+    const tasks = await Task.find({
+      user: userId,
+      dueDate: {
+        $gte: today,
+        $lt: nextWeek
+      }
+    })
+    .populate("category", "name")
+    .sort({ dueDate: 1 }) // Sort by due date (ascending)
+    .exec();
+    
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tasks for this week."
+    });
+  }
+};
+
+// Get tasks due this month
+exports.getTasksForMonth = async (req, res) => {
+  const userId = req.userId;
+  
+  try {
+    // Get first day of current month at midnight
+    const firstDayOfMonth = new Date();
+    firstDayOfMonth.setDate(1);
+    firstDayOfMonth.setHours(0, 0, 0, 0);
+    
+    // Get first day of next month at midnight
+    const firstDayOfNextMonth = new Date(firstDayOfMonth);
+    firstDayOfNextMonth.setMonth(firstDayOfNextMonth.getMonth() + 1);
+    
+    // Find tasks due this month
+    const tasks = await Task.find({
+      user: userId,
+      dueDate: {
+        $gte: firstDayOfMonth,
+        $lt: firstDayOfNextMonth
+      }
+    })
+    .populate("category", "name")
+    .sort({ dueDate: 1 }) // Sort by due date (ascending)
+    .exec();
+    
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tasks for this month."
+    });
+  }
+};
+
+// Get completed tasks
+exports.getCompletedTasks = async (req, res) => {
+  const userId = req.userId;
+  
+  try {
+    // Find completed tasks
+    const tasks = await Task.find({
+      user: userId,
+      status: 'completed'
+    })
+    .populate("category", "name")
+    .sort({ updatedAt: -1 }) // Sort by completion date (descending)
+    .exec();
+    
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving completed tasks."
+    });
   }
 };
 

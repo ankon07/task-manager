@@ -233,11 +233,9 @@ const DashboardLayout = () => {
               </div>
               <div className="ml-4 relative">
                 <div className="flex items-center">
-                  <img
-                    className="h-8 w-8 rounded-full object-cover"
-                    src={currentUser?.avatar || 'https://via.placeholder.com/150'}
-                    alt="User avatar"
-                  />
+                  <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 font-bold text-sm border-2 border-purple-200">
+                    {currentUser?.username ? currentUser.username.substring(0, 2).toUpperCase() : 'U'}
+                  </div>
                   <span className="ml-2 text-sm font-medium text-gray-700 hidden md:block">
                     {currentUser?.username || 'User'}
                   </span>

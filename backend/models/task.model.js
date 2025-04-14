@@ -7,7 +7,17 @@ const Task = mongoose.model(
     description: String,
     dueDate: Date,
     priority: String, // e.g., 'low', 'medium', 'high'
-    status: String, // e.g., 'pending', 'completed'
+    status: {
+      type: String,
+      enum: ['todo', 'in-progress', 'review', 'completed'],
+      default: 'todo'
+    },
+    progress: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
@@ -16,7 +26,7 @@ const Task = mongoose.model(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-  })
+  }, { timestamps: true })
 );
 
 module.exports = Task;
