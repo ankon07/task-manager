@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiCalendar, FiClock, FiCheckCircle, FiPlus, FiUser } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiCheckCircle, FiPlus, FiUser, FiTrendingUp } from 'react-icons/fi';
+import AnimatedButton from '../components/AnimatedButton';
+import AnimatedCard from '../components/AnimatedCard';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -243,10 +245,10 @@ const Dashboard = () => {
         display: false
       },
       tooltip: {
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        titleColor: '#1e293b',
-        bodyColor: '#475569',
-        borderColor: '#e2e8f0',
+        backgroundColor: 'rgba(30, 30, 60, 0.9)',
+        titleColor: '#ffffff',
+        bodyColor: '#e2e8f0',
+        borderColor: '#4b5563',
         borderWidth: 1,
         padding: 10,
         boxPadding: 5,
@@ -264,21 +266,37 @@ const Dashboard = () => {
     scales: {
       x: {
         grid: {
-          display: false
+          display: false,
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: 'rgba(255, 255, 255, 0.7)'
         }
       },
       y: {
         beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
         ticks: {
           precision: 0,
-          stepSize: 1
+          stepSize: 1,
+          color: 'rgba(255, 255, 255, 0.7)'
         }
       }
     },
     elements: {
       point: {
         radius: 4,
-        hoverRadius: 6
+        hoverRadius: 6,
+        backgroundColor: 'rgba(168, 85, 247, 0.8)',
+        borderColor: 'rgba(168, 85, 247, 1)'
+      },
+      line: {
+        tension: 0.4,
+        borderWidth: 3,
+        borderColor: 'rgba(168, 85, 247, 1)',
+        backgroundColor: 'rgba(168, 85, 247, 0.2)'
       }
     }
   };
@@ -319,23 +337,24 @@ const Dashboard = () => {
       {/* Welcome Section */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <div className="mb-4 md:mb-0">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
-          <p className="text-gray-600 text-lg">Here's an overview of your tasks</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Welcome Back!</h1>
+          <p className="text-white text-opacity-80 text-lg">Here's an overview of your tasks</p>
         </div>
         <div>
-          <Link
-            to="/tasks/new"
-            className="btn btn-primary inline-flex items-center px-5 py-2.5 shadow-md hover:shadow-lg transition-all duration-200"
+          <AnimatedButton
+            onClick={() => window.location.href = '/tasks/new'}
+            variant="primary"
+            size="lg"
+            icon={<FiPlus size={18} />}
           >
-            <FiPlus className="mr-2" />
             New Task
-          </Link>
+          </AnimatedButton>
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="card bg-blue-50 border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-300 p-5">
+        <AnimatedCard className="bg-blue-50 border-l-4 border-blue-500 p-5" animate={true}>
           <div className="flex items-center">
             <div className="p-4 rounded-full bg-blue-100 text-blue-500 mr-5">
               <FiCalendar size={26} />
@@ -345,9 +364,9 @@ const Dashboard = () => {
               <h3 className="text-2xl font-bold text-gray-800">{taskStats.total}</h3>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
         
-        <div className="card bg-green-50 border-l-4 border-green-500 hover:shadow-lg transition-shadow duration-300 p-5">
+        <AnimatedCard className="bg-green-50 border-l-4 border-green-500 p-5" animate={true}>
           <div className="flex items-center">
             <div className="p-4 rounded-full bg-green-100 text-green-500 mr-5">
               <FiCheckCircle size={26} />
@@ -357,9 +376,9 @@ const Dashboard = () => {
               <h3 className="text-2xl font-bold text-gray-800">{taskStats.completed}</h3>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
         
-        <div className="card bg-purple-50 border-l-4 border-purple-500 hover:shadow-lg transition-shadow duration-300 p-5">
+        <AnimatedCard className="bg-purple-50 border-l-4 border-purple-500 p-5" animate={true}>
           <div className="flex items-center">
             <div className="p-4 rounded-full bg-purple-100 text-purple-500 mr-5">
               <FiClock size={26} />
@@ -369,9 +388,9 @@ const Dashboard = () => {
               <h3 className="text-2xl font-bold text-gray-800">{taskStats.inProgress}</h3>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
         
-        <div className="card bg-yellow-50 border-l-4 border-yellow-500 hover:shadow-lg transition-shadow duration-300 p-5">
+        <AnimatedCard className="bg-yellow-50 border-l-4 border-yellow-500 p-5" animate={true}>
           <div className="flex items-center">
             <div className="p-4 rounded-full bg-yellow-100 text-yellow-500 mr-5">
               <FiCalendar size={26} />
@@ -381,19 +400,19 @@ const Dashboard = () => {
               <h3 className="text-2xl font-bold text-gray-800">{taskStats.upcoming}</h3>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
       </div>
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Today's Tasks */}
         <div className="lg:col-span-2">
-          <div className="card p-6 hover:shadow-lg transition-shadow duration-300">
+          <AnimatedCard className="p-6 glass-dark text-white transition-all duration-300" glassEffect={false}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Today's Tasks</h2>
+              <h2 className="text-2xl font-bold">Today's Tasks</h2>
               <Link 
                 to="/tasks" 
-                className="text-primary hover:text-primary-dark text-sm font-medium hover:underline transition-colors duration-200"
+                className="text-white hover:text-primary-light text-sm font-medium hover:underline transition-colors duration-200"
               >
                 View All
               </Link>
@@ -402,14 +421,16 @@ const Dashboard = () => {
             {todayTasks.length > 0 ? (
               <div className="space-y-5">
                 {todayTasks.slice(0, 3).map((task) => (
-                  <div 
+                  <AnimatedCard 
                     key={task.id} 
-                    className="p-5 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+                    className="p-5 glass-dark text-white rounded-lg border border-gray-700"
+                    animate={false}
+                    hoverEffect={true}
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1 pr-4">
-                        <h3 className="font-medium text-gray-800 text-lg mb-2">{task.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{task.description}</p>
+                        <h3 className="font-medium text-lg mb-2">{task.title}</h3>
+                        <p className="text-sm opacity-90 mb-3 line-clamp-2">{task.description}</p>
                         
                         <div className="flex items-center mt-3">
                           <div className="flex -space-x-2 mr-3">
@@ -423,7 +444,7 @@ const Dashboard = () => {
                               />
                             ))}
                           </div>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs opacity-80">
                             {task.dueTime ? `Due at ${task.dueTime}` : 'No due time'}
                           </span>
                         </div>
@@ -453,90 +474,98 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </AnimatedCard>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-10 bg-gray-50 rounded-lg">
-                <p className="text-gray-500 mb-4">No tasks scheduled for today</p>
+              <div className="text-center py-10 glass rounded-lg">
+                <p className="opacity-80 mb-4">No tasks scheduled for today</p>
                 <Link
                   to="/tasks/new"
-                  className="mt-2 inline-flex items-center text-primary hover:text-primary-dark font-medium"
+                  className="mt-2 inline-flex items-center text-white hover:text-primary-light font-medium"
                 >
                   <FiPlus className="mr-2" />
                   Add a task
                 </Link>
               </div>
             )}
-          </div>
+          </AnimatedCard>
         </div>
         
         {/* Team Members */}
         <div className="lg:col-span-1">
-          <div className="card p-6 hover:shadow-lg transition-shadow duration-300">
+          <AnimatedCard className="p-6 glass-dark text-white transition-all duration-300" glassEffect={false}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Team Members</h2>
+              <h2 className="text-2xl font-bold">Team Members</h2>
               <Link 
                 to="/team" 
-                className="text-primary hover:text-primary-dark text-sm font-medium hover:underline transition-colors duration-200"
+                className="text-white hover:text-primary-light text-sm font-medium hover:underline transition-colors duration-200"
               >
                 View All
               </Link>
             </div>
             
             <div className="space-y-5">
-              <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+              <div className="flex items-center p-3 glass-dark rounded-lg transition-colors duration-200">
                 <div className="w-12 h-12 rounded-full mr-4 border-2 border-primary-light bg-blue-100 flex items-center justify-center text-blue-500 font-bold">
                   JD
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-800 mb-1">John Doe</h3>
-                  <p className="text-xs text-gray-500">UI Designer</p>
+                  <h3 className="font-medium mb-1">John Doe</h3>
+                  <p className="text-xs opacity-80">UI Designer</p>
                 </div>
               </div>
               
-              <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+              <div className="flex items-center p-3 glass-dark rounded-lg transition-colors duration-200">
                 <div className="w-12 h-12 rounded-full mr-4 border-2 border-primary-light bg-pink-100 flex items-center justify-center text-pink-500 font-bold">
                   JS
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-800 mb-1">Jane Smith</h3>
-                  <p className="text-xs text-gray-500">Frontend Developer</p>
+                  <h3 className="font-medium mb-1">Jane Smith</h3>
+                  <p className="text-xs opacity-80">Frontend Developer</p>
                 </div>
               </div>
               
-              <div className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+              <div className="flex items-center p-3 glass-dark rounded-lg transition-colors duration-200">
                 <div className="w-12 h-12 rounded-full mr-4 border-2 border-primary-light bg-green-100 flex items-center justify-center text-green-500 font-bold">
                   AJ
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-800 mb-1">Alex Johnson</h3>
-                  <p className="text-xs text-gray-500">Backend Developer</p>
+                  <h3 className="font-medium mb-1">Alex Johnson</h3>
+                  <p className="text-xs opacity-80">Backend Developer</p>
                 </div>
               </div>
             </div>
-          </div>
+          </AnimatedCard>
         </div>
       </div>
 
       {/* Completed Tasks Chart */}
-      <div className="card p-6 hover:shadow-lg transition-shadow duration-300">
+      <AnimatedCard className="p-6 glass-dark text-white transition-all duration-300" glassEffect={false}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Tasks Completed</h2>
+          <h2 className="text-2xl font-bold">Tasks Completed</h2>
           <div className="flex space-x-3">
-            <button className="px-4 py-1.5 text-sm font-medium bg-primary text-white rounded-full shadow-sm">
+            <AnimatedButton
+              variant="primary"
+              size="sm"
+              className="rounded-full"
+            >
               Weekly
-            </button>
-            <button className="px-4 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200">
+            </AnimatedButton>
+            <AnimatedButton
+              variant="ghost"
+              size="sm"
+              className="rounded-full"
+            >
               Monthly
-            </button>
+            </AnimatedButton>
           </div>
         </div>
         
         <div className="h-72 mt-4">
           <Line data={completedTasksData} options={chartOptions} />
         </div>
-      </div>
+      </AnimatedCard>
     </div>
   );
 };
