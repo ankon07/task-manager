@@ -251,7 +251,7 @@ const Profile = () => {
     return (
       <div className="flex flex-col items-center justify-center h-full py-20">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mb-4"></div>
-        <p className="text-gray-600 font-medium">Loading profile data...</p>
+        <p className="text-white font-medium">Loading profile data...</p>
       </div>
     );
   }
@@ -260,8 +260,8 @@ const Profile = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Profile</h1>
-        <p className="text-gray-600">Manage your account settings</p>
+        <h1 className="text-2xl font-bold text-white">Profile</h1>
+        <p className="text-white text-opacity-80">Manage your account settings</p>
       </div>
       
       {/* Error and success messages */}
@@ -280,24 +280,24 @@ const Profile = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Information */}
         <div className="md:col-span-2">
-          <div className="card">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Profile Information</h2>
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
+            <h2 className="text-xl font-bold text-white mb-4">Profile Information</h2>
             
             <form onSubmit={handleProfileSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="username">
+                  <label className="block text-sm font-medium text-white mb-1" htmlFor="username">
                     Username
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiUser className="text-gray-400" />
+                      <FiUser className="text-white text-opacity-70" />
                     </div>
                     <input
                       id="username"
                       name="username"
                       type="text"
-                      className={`input pl-10 ${profileErrors.username ? 'border-red-500' : ''}`}
+                      className={`glass pl-10 text-white ${profileErrors.username ? 'border-red-500' : 'border-transparent'}`}
                       placeholder="johndoe"
                       value={profileData.username}
                       onChange={handleProfileChange}
@@ -309,18 +309,18 @@ const Profile = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
+                  <label className="block text-sm font-medium text-white mb-1" htmlFor="email">
                     Email Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiMail className="text-gray-400" />
+                      <FiMail className="text-white text-opacity-70" />
                     </div>
                     <input
                       id="email"
                       name="email"
                       type="email"
-                      className={`input pl-10 ${profileErrors.email ? 'border-red-500' : ''}`}
+                      className={`glass pl-10 text-white ${profileErrors.email ? 'border-red-500' : 'border-transparent'}`}
                       placeholder="you@example.com"
                       value={profileData.email}
                       onChange={handleProfileChange}
@@ -333,14 +333,14 @@ const Profile = () => {
               </div>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="fullName">
+                <label className="block text-sm font-medium text-white mb-1" htmlFor="fullName">
                   Full Name
                 </label>
                 <input
                   id="fullName"
                   name="fullName"
                   type="text"
-                  className="input"
+                  className="glass text-white border-transparent"
                   placeholder="John Doe"
                   value={profileData.fullName}
                   onChange={handleProfileChange}
@@ -348,19 +348,19 @@ const Profile = () => {
               </div>
               
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="bio">
+                <label className="block text-sm font-medium text-white mb-1" htmlFor="bio">
                   Bio
                 </label>
                 <textarea
                   id="bio"
                   name="bio"
                   rows="3"
-                  className="input"
+                  className="glass text-white border-transparent"
                   placeholder="Tell us about yourself"
                   value={profileData.bio}
                   onChange={handleProfileChange}
                 ></textarea>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-white text-opacity-70">
                   Brief description for your profile. URLs are hyperlinked.
                 </p>
               </div>
@@ -393,15 +393,15 @@ const Profile = () => {
         
         {/* Avatar */}
         <div className="md:col-span-1">
-          <div className="card">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Profile Picture</h2>
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
+            <h2 className="text-xl font-bold text-white mb-4">Profile Picture</h2>
             
             <div className="flex flex-col items-center">
               <div className="relative mb-4">
                 <img
                   src={profileData.avatar || DEFAULT_AVATAR}
                   alt="Profile"
-                  className="w-32 h-32 rounded-full object-cover"
+                  className="w-32 h-32 rounded-full object-cover border-2 border-primary-light"
                 />
                 <label
                   htmlFor="avatar-upload"
@@ -418,7 +418,7 @@ const Profile = () => {
                 />
               </div>
               
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-sm text-white text-opacity-70 text-center">
                 Click the camera icon to upload a new profile picture.
                 <br />
                 JPG, GIF or PNG. Max size 1MB.
@@ -429,24 +429,24 @@ const Profile = () => {
         
         {/* Change Password */}
         <div className="md:col-span-3">
-          <div className="card">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Change Password</h2>
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
+            <h2 className="text-xl font-bold text-white mb-4">Change Password</h2>
             
             <form onSubmit={handlePasswordSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="currentPassword">
+                  <label className="block text-sm font-medium text-white mb-1" htmlFor="currentPassword">
                     Current Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="text-gray-400" />
+                      <FiLock className="text-white text-opacity-70" />
                     </div>
                     <input
                       id="currentPassword"
                       name="currentPassword"
                       type={showCurrentPassword ? 'text' : 'password'}
-                      className={`input pl-10 ${passwordErrors.currentPassword ? 'border-red-500' : ''}`}
+                      className={`glass pl-10 text-white ${passwordErrors.currentPassword ? 'border-red-500' : 'border-transparent'}`}
                       placeholder="••••••••"
                       value={passwordData.currentPassword}
                       onChange={handlePasswordChange}
@@ -457,9 +457,9 @@ const Profile = () => {
                       onClick={toggleCurrentPasswordVisibility}
                     >
                       {showCurrentPassword ? (
-                        <FiEyeOff className="text-gray-400 hover:text-gray-600" />
+                        <FiEyeOff className="text-white text-opacity-70 hover:text-white" />
                       ) : (
-                        <FiEye className="text-gray-400 hover:text-gray-600" />
+                        <FiEye className="text-white text-opacity-70 hover:text-white" />
                       )}
                     </button>
                   </div>
@@ -469,18 +469,18 @@ const Profile = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="newPassword">
+                  <label className="block text-sm font-medium text-white mb-1" htmlFor="newPassword">
                     New Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="text-gray-400" />
+                      <FiLock className="text-white text-opacity-70" />
                     </div>
                     <input
                       id="newPassword"
                       name="newPassword"
                       type={showNewPassword ? 'text' : 'password'}
-                      className={`input pl-10 ${passwordErrors.newPassword ? 'border-red-500' : ''}`}
+                      className={`glass pl-10 text-white ${passwordErrors.newPassword ? 'border-red-500' : 'border-transparent'}`}
                       placeholder="••••••••"
                       value={passwordData.newPassword}
                       onChange={handlePasswordChange}
@@ -491,9 +491,9 @@ const Profile = () => {
                       onClick={toggleNewPasswordVisibility}
                     >
                       {showNewPassword ? (
-                        <FiEyeOff className="text-gray-400 hover:text-gray-600" />
+                        <FiEyeOff className="text-white text-opacity-70 hover:text-white" />
                       ) : (
-                        <FiEye className="text-gray-400 hover:text-gray-600" />
+                        <FiEye className="text-white text-opacity-70 hover:text-white" />
                       )}
                     </button>
                   </div>
@@ -503,18 +503,18 @@ const Profile = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="confirmPassword">
+                  <label className="block text-sm font-medium text-white mb-1" htmlFor="confirmPassword">
                     Confirm New Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="text-gray-400" />
+                      <FiLock className="text-white text-opacity-70" />
                     </div>
                     <input
                       id="confirmPassword"
                       name="confirmPassword"
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className={`input pl-10 ${passwordErrors.confirmPassword ? 'border-red-500' : ''}`}
+                      className={`glass pl-10 text-white ${passwordErrors.confirmPassword ? 'border-red-500' : 'border-transparent'}`}
                       placeholder="••••••••"
                       value={passwordData.confirmPassword}
                       onChange={handlePasswordChange}
@@ -525,9 +525,9 @@ const Profile = () => {
                       onClick={toggleConfirmPasswordVisibility}
                     >
                       {showConfirmPassword ? (
-                        <FiEyeOff className="text-gray-400 hover:text-gray-600" />
+                        <FiEyeOff className="text-white text-opacity-70 hover:text-white" />
                       ) : (
-                        <FiEye className="text-gray-400 hover:text-gray-600" />
+                        <FiEye className="text-white text-opacity-70 hover:text-white" />
                       )}
                     </button>
                   </div>
@@ -540,12 +540,12 @@ const Profile = () => {
               <div>
                 <button
                   type="submit"
-                  className="btn bg-white border border-gray-300 hover:bg-gray-50 inline-flex items-center"
+                  className="glass text-white px-4 py-2 rounded-md font-medium inline-flex items-center border border-gray-700 hover:bg-white hover:bg-opacity-10"
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiMail, FiLock, FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
+import AnimatedButton from '../components/AnimatedButton';
+import AnimatedCard from '../components/AnimatedCard';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -54,28 +56,35 @@ const Login = () => {
   };
   
   return (
-    <div className="p-6 md:p-8">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h2>
+    <AnimatedCard className="p-6 md:p-8 relative overflow-hidden" glassEffect={true} animate={true}>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary-light animate-pulse-custom"></div>
+      <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-gradient-to-br from-primary-light to-secondary opacity-20 blur-xl"></div>
+      <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-gradient-to-tr from-secondary to-primary opacity-20 blur-xl"></div>
+      <h2 className="text-2xl font-bold text-center text-white mb-6 relative z-10">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-secondary">
+          Login to Your Account
+        </span>
+      </h2>
       
       {errors.form && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded animate-float">
           {errors.form}
         </div>
       )}
       
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">
+          <label className="block text-white text-sm font-medium mb-2" htmlFor="email">
             Email Address
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiMail className="text-gray-400" />
+              <FiMail className="text-white text-opacity-70" />
             </div>
             <input
               id="email"
               type="email"
-              className={`input pl-10 ${errors.email ? 'border-red-500' : ''}`}
+              className={`glass pl-10 text-white input-focus-effect ${errors.email ? 'border-red-500' : 'border-transparent'}`}
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -86,21 +95,21 @@ const Login = () => {
         
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <label className="block text-gray-700 text-sm font-medium" htmlFor="password">
+            <label className="block text-white text-sm font-medium" htmlFor="password">
               Password
             </label>
-            <Link to="/forgot-password" className="text-sm text-primary hover:text-primary-dark">
+            <Link to="/forgot-password" className="text-sm text-primary-light hover:text-white">
               Forgot password?
             </Link>
           </div>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiLock className="text-gray-400" />
+              <FiLock className="text-white text-opacity-70" />
             </div>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
-              className={`input pl-10 ${errors.password ? 'border-red-500' : ''}`}
+              className={`glass pl-10 text-white input-focus-effect ${errors.password ? 'border-red-500' : 'border-transparent'}`}
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -111,19 +120,23 @@ const Login = () => {
               onClick={togglePasswordVisibility}
             >
               {showPassword ? (
-                <FiEyeOff className="text-gray-400 hover:text-gray-600" />
+                <FiEyeOff className="text-white text-opacity-70 hover:text-white" />
               ) : (
-                <FiEye className="text-gray-400 hover:text-gray-600" />
+                <FiEye className="text-white text-opacity-70 hover:text-white" />
               )}
             </button>
           </div>
           {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
         </div>
         
-        <button
+        <AnimatedButton
           type="submit"
-          className="btn btn-primary w-full py-2.5"
+          variant="primary"
+          fullWidth={true}
+          size="lg"
           disabled={isSubmitting}
+          icon={isSubmitting ? null : <FiLogIn size={18} />}
+          className="bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark"
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center">
@@ -136,18 +149,19 @@ const Login = () => {
           ) : (
             'Login'
           )}
-        </button>
+        </AnimatedButton>
       </form>
       
       <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-white text-opacity-80">
           Don't have an account?{' '}
-          <Link to="/register" className="text-primary hover:text-primary-dark font-medium">
-            Sign up
+          <Link to="/register" className="text-primary-light hover:text-white font-medium transition-all duration-300 hover:underline relative">
+            <span className="relative z-10">Sign up</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-light to-secondary group-hover:w-full transition-all duration-300"></span>
           </Link>
         </p>
       </div>
-    </div>
+    </AnimatedCard>
   );
 };
 

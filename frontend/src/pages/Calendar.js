@@ -174,7 +174,7 @@ const Calendar = () => {
   if (isLoading && tasks.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
       </div>
     );
   }
@@ -187,8 +187,8 @@ const Calendar = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Calendar</h1>
-          <p className="text-gray-600">View and manage your tasks by date</p>
+          <h1 className="text-2xl font-bold text-white">Calendar</h1>
+          <p className="text-white text-opacity-80">View and manage your tasks by date</p>
         </div>
         <div className="mt-4 md:mt-0">
           <Link
@@ -209,21 +209,21 @@ const Calendar = () => {
       )}
       
       {/* Calendar controls */}
-      <div className="card">
+      <div className="glass-dark text-white rounded-xl shadow-card p-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center space-x-4">
-            <h2 className="text-xl font-bold text-gray-800">
+            <h2 className="text-xl font-bold text-white">
               {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
             </h2>
             <div className="flex items-center space-x-2">
               <button
-                className="p-2 rounded-full hover:bg-gray-100"
+                className="p-2 rounded-full hover:bg-white hover:bg-opacity-10 text-white"
                 onClick={goToPreviousMonth}
               >
                 <FiChevronLeft size={20} />
               </button>
               <button
-                className="p-2 rounded-full hover:bg-gray-100"
+                className="p-2 rounded-full hover:bg-white hover:bg-opacity-10 text-white"
                 onClick={goToNextMonth}
               >
                 <FiChevronRight size={20} />
@@ -233,19 +233,19 @@ const Calendar = () => {
           
           <div className="flex items-center space-x-2">
             <button
-              className="btn bg-white border border-gray-300 hover:bg-gray-50"
+              className="glass text-white px-4 py-2 rounded-md font-medium"
               onClick={goToToday}
             >
               Today
             </button>
-            <div className="border-r border-gray-300 h-6 mx-2"></div>
+            <div className="border-r border-gray-700 h-6 mx-2"></div>
             <div className="flex rounded-md shadow-sm">
               <button
                 className={`px-4 py-2 text-sm font-medium ${
                   currentView === 'month'
                     ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } border border-gray-300 rounded-l-md`}
+                    : 'glass text-white hover:bg-white hover:bg-opacity-10'
+                } border border-gray-700 rounded-l-md`}
                 onClick={() => setCurrentView('month')}
               >
                 Month
@@ -254,8 +254,8 @@ const Calendar = () => {
                 className={`px-4 py-2 text-sm font-medium ${
                   currentView === 'week'
                     ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } border-t border-b border-r border-gray-300`}
+                    : 'glass text-white hover:bg-white hover:bg-opacity-10'
+                } border-t border-b border-r border-gray-700`}
                 onClick={() => setCurrentView('week')}
               >
                 Week
@@ -264,8 +264,8 @@ const Calendar = () => {
                 className={`px-4 py-2 text-sm font-medium ${
                   currentView === 'day'
                     ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } border-t border-b border-r border-gray-300 rounded-r-md`}
+                    : 'glass text-white hover:bg-white hover:bg-opacity-10'
+                } border-t border-b border-r border-gray-700 rounded-r-md`}
                 onClick={() => setCurrentView('day')}
               >
                 Day
@@ -276,20 +276,20 @@ const Calendar = () => {
       </div>
       
       {/* Calendar grid */}
-      <div className="card overflow-hidden">
+      <div className="glass-dark text-white rounded-xl shadow-card p-4 overflow-hidden">
         {currentView === 'month' && (
           <div>
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 gap-px bg-gray-200">
+            <div className="grid grid-cols-7 gap-px bg-gray-700">
               {weekDays.map((day) => (
-                <div key={day} className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-700">
+                <div key={day} className="bg-primary bg-opacity-20 p-2 text-center text-sm font-medium text-white">
                   {day}
                 </div>
               ))}
             </div>
             
             {/* Calendar days */}
-            <div className="grid grid-cols-7 gap-px bg-gray-200">
+            <div className="grid grid-cols-7 gap-px bg-gray-700">
               {calendarDays.map((day, index) => {
                 const tasksForDay = getTasksForDate(day.day, day.month, day.year);
                 const isCurrentDay = isToday(day.day, day.month, day.year);
@@ -298,9 +298,9 @@ const Calendar = () => {
                 return (
                   <div
                     key={index}
-                    className={`bg-white min-h-[100px] p-2 ${
-                      !day.isCurrentMonth ? 'text-gray-400' : ''
-                    } ${isCurrentDay ? 'bg-blue-50' : ''} ${
+                    className={`glass min-h-[100px] p-2 ${
+                      !day.isCurrentMonth ? 'text-gray-500' : 'text-white'
+                    } ${isCurrentDay ? 'bg-primary bg-opacity-20' : ''} ${
                       isSelectedDay ? 'ring-2 ring-primary ring-inset' : ''
                     }`}
                     onClick={() => handleDateClick(day.day, day.month, day.year)}
@@ -334,7 +334,7 @@ const Calendar = () => {
                         </div>
                       ))}
                       {tasksForDay.length > 3 && (
-                        <div className="text-xs text-gray-500 pl-1">
+                        <div className="text-xs text-white text-opacity-70 pl-1">
                           +{tasksForDay.length - 3} more
                         </div>
                       )}
@@ -348,10 +348,10 @@ const Calendar = () => {
         
         {/* Week view placeholder */}
         {currentView === 'week' && (
-          <div className="p-8 text-center text-gray-500">
-            <FiCalendar className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">Week View</h3>
-            <p className="mt-1 text-sm text-gray-500">
+          <div className="p-8 text-center text-white text-opacity-80">
+            <FiCalendar className="mx-auto h-12 w-12 text-white text-opacity-70" />
+            <h3 className="mt-2 text-sm font-medium text-white">Week View</h3>
+            <p className="mt-1 text-sm text-white text-opacity-80">
               Week view is coming soon. Please use Month view for now.
             </p>
           </div>
@@ -359,10 +359,10 @@ const Calendar = () => {
         
         {/* Day view placeholder */}
         {currentView === 'day' && (
-          <div className="p-8 text-center text-gray-500">
-            <FiClock className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">Day View</h3>
-            <p className="mt-1 text-sm text-gray-500">
+          <div className="p-8 text-center text-white text-opacity-80">
+            <FiClock className="mx-auto h-12 w-12 text-white text-opacity-70" />
+            <h3 className="mt-2 text-sm font-medium text-white">Day View</h3>
+            <p className="mt-1 text-sm text-white text-opacity-80">
               Day view is coming soon. Please use Month view for now.
             </p>
           </div>
@@ -371,24 +371,24 @@ const Calendar = () => {
       
       {/* Selected day tasks */}
       {selectedDate && (
-        <div className="card">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">
+        <div className="glass-dark text-white rounded-xl shadow-card p-4">
+          <h3 className="text-lg font-bold text-white mb-4">
             Tasks for {formatDate(selectedDate)}
           </h3>
           
           {selectedTasks.length > 0 ? (
             <div className="space-y-3">
               {selectedTasks.map((task) => (
-                <div key={task.id} className="p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <div key={task.id} className="p-3 glass rounded-lg border border-gray-700 shadow-sm">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h4 className="font-medium text-gray-800">{task.title}</h4>
+                      <h4 className="font-medium text-white">{task.title}</h4>
                       {task.description && (
-                        <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                        <p className="text-sm text-white text-opacity-80 mt-1">{task.description}</p>
                       )}
                       
                       <div className="flex items-center mt-2">
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-white text-opacity-70">
                           {task.dueTime ? `Due at ${task.dueTime}` : 'No due time'}
                         </span>
                       </div>
@@ -423,10 +423,10 @@ const Calendar = () => {
             </div>
           ) : (
             <div className="text-center py-6">
-              <p className="text-gray-500">No tasks scheduled for this day</p>
+              <p className="text-white text-opacity-80">No tasks scheduled for this day</p>
               <Link
                 to="/tasks/new"
-                className="mt-2 inline-flex items-center text-primary hover:text-primary-dark"
+                className="mt-2 inline-flex items-center text-primary-light hover:text-white"
               >
                 <FiPlus className="mr-1" />
                 Add a task

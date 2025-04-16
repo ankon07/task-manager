@@ -22,8 +22,6 @@ exports.signup = async (req, res) => {
       username: username,
       email: email,
       password: bcrypt.hashSync(password, 8), // Hash password [cite: 3]
-      // emailVerificationToken: crypto.randomBytes(20).toString('hex') // Generate token [cite: 2]
-      // emailVerified: false // Start as unverified [cite: 2]
     });
 
     const savedUser = await user.save();

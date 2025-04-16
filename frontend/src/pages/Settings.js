@@ -111,8 +111,8 @@ const Settings = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Settings</h1>
-        <p className="text-gray-600">Customize your application preferences</p>
+        <h1 className="text-2xl font-bold text-white">Settings</h1>
+        <p className="text-white text-opacity-80">Customize your application preferences</p>
       </div>
       
       {/* Error and success messages */}
@@ -131,16 +131,16 @@ const Settings = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Appearance */}
         <div className="md:col-span-1">
-          <div className="card">
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
             <div className="flex items-center mb-4">
-              <div className="p-2 rounded-full bg-primary-light text-primary mr-3">
+              <div className="p-2 rounded-full bg-primary bg-opacity-20 text-white mr-3">
                 {settings.theme === THEMES.DARK ? <FiMoon size={20} /> : <FiSun size={20} />}
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Appearance</h2>
+              <h2 className="text-xl font-bold text-white">Appearance</h2>
             </div>
             
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Theme
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -148,8 +148,8 @@ const Settings = () => {
                   type="button"
                   className={`p-3 rounded-lg border ${
                     settings.theme === THEMES.LIGHT
-                      ? 'border-primary bg-primary-light'
-                      : 'border-gray-300 hover:bg-gray-50'
+                      ? 'border-primary bg-primary bg-opacity-20 text-white'
+                      : 'border-gray-700 hover:bg-white hover:bg-opacity-10 text-white'
                   } flex flex-col items-center`}
                   onClick={() => handleThemeChange(THEMES.LIGHT)}
                 >
@@ -161,8 +161,8 @@ const Settings = () => {
                   type="button"
                   className={`p-3 rounded-lg border ${
                     settings.theme === THEMES.DARK
-                      ? 'border-primary bg-primary-light'
-                      : 'border-gray-300 hover:bg-gray-50'
+                      ? 'border-primary bg-primary bg-opacity-20 text-white'
+                      : 'border-gray-700 hover:bg-white hover:bg-opacity-10 text-white'
                   } flex flex-col items-center`}
                   onClick={() => handleThemeChange(THEMES.DARK)}
                 >
@@ -174,8 +174,8 @@ const Settings = () => {
                   type="button"
                   className={`p-3 rounded-lg border ${
                     settings.theme === THEMES.SYSTEM
-                      ? 'border-primary bg-primary-light'
-                      : 'border-gray-300 hover:bg-gray-50'
+                      ? 'border-primary bg-primary bg-opacity-20 text-white'
+                      : 'border-gray-700 hover:bg-white hover:bg-opacity-10 text-white'
                   } flex flex-col items-center`}
                   onClick={() => handleThemeChange(THEMES.SYSTEM)}
                 >
@@ -189,12 +189,12 @@ const Settings = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="language">
+              <label className="block text-sm font-medium text-white mb-2" htmlFor="language">
                 Language
               </label>
               <select
                 id="language"
-                className="input"
+                className="glass text-white border-transparent"
                 value={settings.language}
                 onChange={handleLanguageChange}
               >
@@ -208,17 +208,17 @@ const Settings = () => {
         
         {/* Notifications */}
         <div className="md:col-span-1">
-          <div className="card">
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
             <div className="flex items-center mb-4">
-              <div className="p-2 rounded-full bg-primary-light text-primary mr-3">
+              <div className="p-2 rounded-full bg-primary bg-opacity-20 text-white mr-3">
                 <FiBell size={20} />
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Notifications</h2>
+              <h2 className="text-xl font-bold text-white">Notifications</h2>
             </div>
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="text-sm font-medium text-white">
                   Email Notifications
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -232,13 +232,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="email"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="push" className="text-sm font-medium text-gray-700">
+                <label htmlFor="push" className="text-sm font-medium text-white">
                   Push Notifications
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -252,13 +252,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="push"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="taskReminders" className="text-sm font-medium text-gray-700">
+                <label htmlFor="taskReminders" className="text-sm font-medium text-white">
                   Task Reminders
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -272,13 +272,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="taskReminders"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="taskAssignments" className="text-sm font-medium text-gray-700">
+                <label htmlFor="taskAssignments" className="text-sm font-medium text-white">
                   Task Assignments
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -292,13 +292,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="taskAssignments"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="taskComments" className="text-sm font-medium text-gray-700">
+                <label htmlFor="taskComments" className="text-sm font-medium text-white">
                   Task Comments
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -312,7 +312,7 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="taskComments"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
@@ -322,17 +322,17 @@ const Settings = () => {
         
         {/* Privacy */}
         <div className="md:col-span-1">
-          <div className="card">
+          <div className="glass-dark text-white rounded-xl shadow-card p-4">
             <div className="flex items-center mb-4">
-              <div className="p-2 rounded-full bg-primary-light text-primary mr-3">
+              <div className="p-2 rounded-full bg-primary bg-opacity-20 text-white mr-3">
                 <FiShield size={20} />
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Privacy</h2>
+              <h2 className="text-xl font-bold text-white">Privacy</h2>
             </div>
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label htmlFor="showOnlineStatus" className="text-sm font-medium text-gray-700">
+                <label htmlFor="showOnlineStatus" className="text-sm font-medium text-white">
                   Show Online Status
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -346,13 +346,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="showOnlineStatus"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="showEmail" className="text-sm font-medium text-gray-700">
+                <label htmlFor="showEmail" className="text-sm font-medium text-white">
                   Show Email to Team Members
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -366,13 +366,13 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="showEmail"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label htmlFor="showActivity" className="text-sm font-medium text-gray-700">
+                <label htmlFor="showActivity" className="text-sm font-medium text-white">
                   Show Activity Status
                 </label>
                 <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -386,7 +386,7 @@ const Settings = () => {
                   />
                   <label
                     htmlFor="showActivity"
-                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"
                   ></label>
                 </div>
               </div>
@@ -421,7 +421,7 @@ const Settings = () => {
             
             <button
               type="button"
-              className="btn bg-red-500 text-white hover:bg-red-600 inline-flex items-center"
+              className="glass text-white px-4 py-2 rounded-md font-medium inline-flex items-center border border-red-500 hover:bg-red-500 hover:bg-opacity-20"
               onClick={handleDeleteAccount}
             >
               <FiTrash2 className="mr-2" />
